@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BLOODY XITERS v2.0.2</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0d0d0d;
+            color: #ffffff;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .app-window {
+            width: 900px;
+            height: 600px;
+            background-color: #111111;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+            display: flex;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 180px;
+            background-color: #111111;
+            border-right: 1px solid #1a1a1a;
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+        }
+
+        .logo-section {
+            text-align: center;
+            padding: 20px 10px 15px;
+            border-bottom: 1px solid #1a1a1a;
+        }
+
+        .logo-circle {
+            width: 50px;
+            height: 50px;
+            border: 2px solid #00d4aa;
+            border-radius: 50%;
+            margin: 0 auto 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-weight: bold;
+            font-size: 20px;
+            letter-spacing: -1px;
+        }
+
+        .brand-name {
+            font-size: 13px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .brand-sub {
+            font-size: 8px;
+            color: #00d4aa;
+            margin-top: 2px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .nav-menu {
+            flex: 1;
+            padding: 8px 0;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 15px;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #777777;
+            font-size: 11px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border-left: 3px solid transparent;
+        }
+
+        .nav-item:hover {
+            background-color: #1a1a1a;
+            color: #aaaaaa;
+        }
+
+        .nav-item.active {
+            background-color: #1a1a1a;
+            color: #00d4aa;
+            border-left: 3px solid #00d4aa;
+        }
+
+        .nav-icon {
+            width: 16px;
+            height: 16px;
+            margin-right: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        /* User Section */
+        .user-section {
+            padding: 12px;
+            border-top: 1px solid #1a1a1a;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff6b6b 0%, #c0392b 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .user-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .username {
+            font-size: 11px;
+            font-weight: bold;
+            color: #ffffff;
+        }
+
+        .user-status {
+            font-size: 9px;
+            color: #00d4aa;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background-color: #0f0f0f;
+            min-width: 0;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #111111;
+            border-bottom: 1px solid #1a1a1a;
+            height: 40px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .header-icon {
+            width: 16px;
+            height: 16px;
+            color: #00d4aa;
+            font-size: 12px;
+        }
+
+        .brand-text {
+            font-size: 12px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .version {
+            color: #555555;
+            font-size: 10px;
+        }
+
+        .tools-btn {
+            background-color: #1a1a1a;
+            border: 1px solid #333;
+            color: #777;
+            padding: 4px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            letter-spacing: 1px;
+        }
+
+        .tools-btn:hover {
+            background-color: #252525;
+            color: #aaa;
+        }
+
+        .window-controls {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .control-btn {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .minimize { background-color: #f1c40f; }
+        .maximize { background-color: #2ecc71; }
+        .close { background-color: #e74c3c; }
+
+        /* Content Area */
+        .content-area {
+            flex: 1;
+            padding: 25px;
+            overflow-y: auto;
+        }
+
+        .page-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            padding-bottom: 8px;
+            color: #ffffff;
+        }
+
+        .page-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background-color: #00d4aa;
+        }
+
+        .section {
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            color: #00d4aa;
+            font-size: 10px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+
+        .setting-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #1a1a1a;
+        }
+
+        .setting-label {
+            font-size: 12px;
+            color: #bbbbbb;
+        }
+
+        /* Toggle Switch */
+        .toggle-switch {
+            position: relative;
+            width: 36px;
+            height: 20px;
+            background-color: #333333;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            flex-shrink: 0;
+        }
+
+        .toggle-switch.active {
+            background-color: #00d4aa;
+        }
+
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 16px;
+            height: 16px;
+            background-color: #777777;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+
+        .toggle-switch.active::after {
+            left: 18px;
+            background-color: #ffffff;
+        }
+
+        /* Console Area */
+        .console-area {
+            height: 90px;
+            background-color: #0a0a0a;
+            border-top: 1px solid #1a1a1a;
+            padding: 12px 20px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            overflow-y: auto;
+        }
+
+        .console-line {
+            font-size: 11px;
+            margin-bottom: 4px;
+            color: #00d4aa;
+            line-height: 1.4;
+        }
+
+        .console-line .prefix {
+            color: #00d4aa;
+        }
+
+        .console-line .timestamp {
+            color: #00d4aa;
+        }
+
+        .console-line .message {
+            color: #00d4aa;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 2px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-window">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo-section">
+                <div class="logo-circle">BX</div>
+                <div class="brand-name">BLOODY XITERS</div>
+                <div class="brand-sub">EXTERNAL PANEL</div>
+            </div>
+
+            <div class="nav-menu">
+                <div class="nav-item" onclick="setActive(this)">
+                    <span class="nav-icon">⊞</span>
+                    <span>Dashboard</span>
+                </div>
+                <div class="nav-item" onclick="setActive(this)">
+                    <span class="nav-icon">◎</span>
+                    <span>Aim</span>
+                </div>
+                <div class="nav-item active" onclick="setActive(this)">
+                    <span class="nav-icon">👁</span>
+                    <span>Visuals</span>
+                </div>
+                <div class="nav-item" onclick="setActive(this)">
+                    <span class="nav-icon">⚡</span>
+                    <span>Misc</span>
+                </div>
+                <div class="nav-item" onclick="setActive(this)">
+                    <span class="nav-icon">⬇</span>
+                    <span>Optimize</span>
+                </div>
+                <div class="nav-item" onclick="setActive(this)">
+                    <span class="nav-icon">⊕</span>
+                    <span>Additional</span>
+                </div>
+                <div class="nav-item" onclick="setActive(this)">
+                    <span class="nav-icon">⚙</span>
+                    <span>Settings</span>
+                </div>
+            </div>
+
+            <div class="user-section">
+                <div class="user-avatar">🎮</div>
+                <div class="user-info">
+                    <div class="username">realjack_900</div>
+                    <div class="user-status">Lifetime Access</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="header">
+                <div class="header-left">
+                    <span class="header-icon">✕</span>
+                    <span class="brand-text">BLOODY XITERS</span>
+                    <span class="version">v2.0.2</span>
+                </div>
+                <div class="window-controls">
+                    <button class="tools-btn">
+                        <span>⬇</span> TOOLS
+                    </button>
+                    <span class="control-btn minimize"></span>
+                    <span class="control-btn maximize"></span>
+                    <span class="control-btn close"></span>
+                </div>
+            </div>
+
+            <div class="content-area">
+                <h1 class="page-title">VISUAL SETTINGS</h1>
+
+                <div class="section">
+                    <div class="section-title">CHAMS</div>
+                    <div class="setting-row">
+                        <span class="setting-label">Chams Menu 64bit</span>
+                        <div class="toggle-switch" onclick="toggleSwitch(this, 'Chams Menu 64bit')"></div>
+                    </div>
+                    <div class="setting-row">
+                        <span class="setting-label">Chams Menu 32bit</span>
+                        <div class="toggle-switch" onclick="toggleSwitch(this, 'Chams Menu 32bit')"></div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">ESP</div>
+                    <div class="setting-row">
+                        <span class="setting-label">ESP PLAY STORE</span>
+                        <div class="toggle-switch" onclick="toggleSwitch(this, 'ESP PLAY STORE')"></div>
+                    </div>
+                    <div class="setting-row">
+                        <span class="setting-label">ESP BETA</span>
+                        <div class="toggle-switch" onclick="toggleSwitch(this, 'ESP BETA')"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="console-area" id="console">
+                <div class="console-line">
+                    <span class="prefix">[+]</span>
+                    <span class="message"> Welcome to BLOODY XITERS.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function setActive(element) {
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            element.classList.add('active');
+        }
+
+        function toggleSwitch(element, featureName) {
+            element.classList.toggle('active');
+            
+            const now = new Date();
+            const timeStr = now.getFullYear() + '-' + 
+                          String(now.getMonth() + 1).padStart(2, '0') + '-' + 
+                          String(now.getDate()).padStart(2, '0') + ' ' + 
+                          String(now.getHours()).padStart(2, '0') + ':' + 
+                          String(now.getMinutes()).padStart(2, '0') + ':' + 
+                          String(now.getSeconds()).padStart(2, '0');
+            
+            const status = element.classList.contains('active') ? 'Enabled' : 'Disabled';
+            const consoleDiv = document.getElementById('console');
+            
+            const newLine = document.createElement('div');
+            newLine.className = 'console-line';
+            newLine.innerHTML = `
+                <span class="prefix">[+]</span>
+                <span class="message"> [${timeStr}] ${featureName} ${status}.</span>
+            `;
+            
+            consoleDiv.appendChild(newLine);
+            consoleDiv.scrollTop = consoleDiv.scrollHeight;
+        }
+
+        // Initial console messages
+        window.onload = function() {
+            const consoleDiv = document.getElementById('console');
+            const now = new Date();
+            const timeStr = now.getFullYear() + '-' + 
+                          String(now.getMonth() + 1).padStart(2, '0') + '-' + 
+                          String(now.getDate()).padStart(2, '0') + ' ' + 
+                          String(now.getHours()).padStart(2, '0') + ':' + 
+                          String(now.getMinutes()).padStart(2, '0') + ':' + 
+                          String(now.getSeconds()).padStart(2, '0');
+            
+            const messages = [
+                `[${timeStr}] Mouse settings synchronized with PC hardware.`,
+                `[${timeStr}] Connected to database!`
+            ];
+            
+            messages.forEach(msg => {
+                const line = document.createElement('div');
+                line.className = 'console-line';
+                line.innerHTML = `<span class="prefix">[+]</span><span class="message"> ${msg}</span>`;
+                consoleDiv.appendChild(line);
+            });
+        };
+    </script>
+</body>
+</html>
